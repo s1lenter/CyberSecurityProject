@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Проект</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Мой Проект</h1>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Меню</h2>
+            <a href="#home">Главная</a>
+            <a href="#about">О нас</a>
+            <a href="#services">Услуги</a>
+            <a href="#contact">Контакты</a>
+        </div>
+        <div class="content">
+            {% block content %} {% endblock %}
+        </div>
+    </div>
+
+    <footer>
+        <p>Ситдиков Сергей Дмитриевич</p>
+        <p>РИ-230910</p>
+    </footer>
+</body>
+</html>
