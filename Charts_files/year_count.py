@@ -38,4 +38,6 @@ if __name__ == "__main__":
     chunks = pd.read_csv('vacancies_2024.csv', chunksize=100000)
     results = process_chunks(chunks)
     df_results = pd.DataFrame(list(results.items()), columns=['Год', 'Количество вакансий'])
+    df_cleaned = df_results.dropna(subset=['Количество вакансий']).reset_index()
     df_results.to_csv('year_count.csv', index=False)
+    df_results.to_html('year_count.html')

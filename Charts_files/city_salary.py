@@ -48,5 +48,10 @@ def process_chunks(chunks):
 if __name__ == "__main__":
     chunks = pd.read_csv('vacancies_2024.csv', chunksize=100000)
     results = process_chunks(chunks)
-    df_results = pd.DataFrame(list(results.items()), columns=['Город', 'Зп']).sort_values(by='Зп', ascending=False)
-    df_results.to_csv('city_salary.csv', index=False)
+    df_results = pd.DataFrame(list(results.items()), columns=['Город', 'Средняя зарплата'])\
+        .sort_values(by='Средняя зарплата', ascending=False).reset_index(drop=True)
+    df_results.index += 1
+    df_results['Средняя зарплата'] = df_results['Средняя зарплата'].round()
+    df_cleaned = df_results.dropna(subset='Средняя зарплата')
+    df_cleaned.to_csv('city_salary.csv', index=False)
+    df_cleaned.to_html('city_salary.html')

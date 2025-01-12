@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 def make_column_chart(file, title, x_name, y_name):
     df_results = pd.read_csv(file)
 
@@ -13,4 +14,6 @@ def make_column_chart(file, title, x_name, y_name):
     plt.grid(axis='y')
     plt.show()
 
-make_column_chart('year_count.csv', 'Количество вакансий по годам', 'Год', 'Количество вакансий')
+
+make_column_chart('year_salary.csv', 'Динамика уровня зарплат по годам', 'Год', 'Средняя зарплата')
+make_column_chart('year_count.csv', 'Динамика количества вакансий по годам', 'Год', 'Количество вакансий')

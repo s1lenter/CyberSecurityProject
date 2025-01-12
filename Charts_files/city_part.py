@@ -31,6 +31,9 @@ def process_chunks(chunks):
 if __name__ == "__main__":
     chunks = pd.read_csv('vacancies_2024.csv', chunksize=100000)
     results = process_chunks(chunks)
-    df_results = pd.DataFrame(list(results.items()), columns=['Город', 'Количество вакансий'])
-    df_results['Количество вакансий'] = df_results['Количество вакансий'] / len(df_results)
+    df_results = pd.DataFrame(list(results.items()), columns=['Город', 'Доля вакансий'])
+    all_vacs = df_results['Доля вакансий'].sum()
+    df_results['Доля вакансий'] = round(df_results['Доля вакансий'] / all_vacs, 2)
+    df_results = df_results.sort_values(by='Доля вакансий', ascending=False).reset_index(drop=True)
     df_results.to_csv('city_part.csv', index=False)
+    df_results.to_html('city_part.html')
