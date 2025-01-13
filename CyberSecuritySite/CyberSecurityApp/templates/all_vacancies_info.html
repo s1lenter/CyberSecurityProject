@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{% for inf in info %}
+    <h2>{{inf.name}}</h2>
+    <img src="{{ inf.image.url }}" alt="{{inf.name}}">
+    {{inf.table|safe}}
+{% endfor %}
+
+{% endblock %}
