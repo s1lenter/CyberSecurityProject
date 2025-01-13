@@ -5,7 +5,6 @@ currency = pd.read_csv('currency.csv')
 chunks = pd.read_csv('mini_vacs.csv', chunksize=100000)
 
 
-
 def change_currency(row):
     if pd.isna(row['salary']) or row['salary_currency'] == 'RUR':
         return row['salary']
@@ -19,26 +18,22 @@ def chunk_analysis(chunk):
     df_cleaned['salary'] = df_cleaned.apply(change_currency, axis=1)
     df_cleaned.drop(df_cleaned[df_cleaned['salary'] > 10000000].index, inplace=True)
 
-    df = df_cleaned.groupby('area_name')['salary'].mean()
-    return df.to_dict()
+    df = df_cleaned.groupby(['area_name']).agg({
+            "salary": "mean",
+            "published_at": "count"
+        }).reset_index()
+    return df
 
 
 def process_chunks(chunks):
     with Pool() as pool:
         results = pool.map(chunk_analysis, chunks)
-
-    final_result = {}
-    for result in results:
-        for city, salary in result.items():
-            if city in final_result:
-                final_result[city].append(salary)
-            else:
-                final_result[city] = [salary]
-
-    for year in final_result:
-        final_result[year] = sum(final_result[year]) / len(final_result[year])
-
-    return final_result
+    df = pd.concat(results, ignore_index=True)
+    result_df = df.groupby(['area_name']).agg({
+        "salary": "mean",
+        "published_at": "sum"
+    }).reset_index()
+    return result_df
 
 # for chunk in chunks:
 #     x = chunk_analysis(chunk)
@@ -47,11 +42,13 @@ def process_chunks(chunks):
 
 if __name__ == "__main__":
     chunks = pd.read_csv('vacancies_2024.csv', chunksize=100000)
-    results = process_chunks(chunks)
-    df_results = pd.DataFrame(list(results.items()), columns=['Город', 'Средняя зарплата'])\
+    df_results = process_chunks(chunks)
+    df_results.columns = ['Город', 'Средняя зарплата', 'count']
+    df_results['count'] = round(df_results['count'] / df_results['count'].sum(), 3)
+    df_results = df_results[df_results['count'] >= 0.01]\
         .sort_values(by='Средняя зарплата', ascending=False).reset_index(drop=True)
     df_results.index += 1
     df_results['Средняя зарплата'] = df_results['Средняя зарплата'].round()
-    df_cleaned = df_results.dropna(subset='Средняя зарплата')
+    df_cleaned = df_results[['Город', 'Средняя зарплата']].dropna(subset='Средняя зарплата')
     df_cleaned.to_csv('city_salary.csv', index=False)
-    df_cleaned.to_html('city_salary.html')
+    df_cleaned.to_html('city_salary.html', index=False)

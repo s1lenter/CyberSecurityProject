@@ -51,6 +51,6 @@ if __name__ == "__main__":
     chunks = pd.read_csv('vacancies_2024.csv', chunksize=100000)
     results = process_chunks(chunks)
     df_results = pd.DataFrame(list(results.items()), columns=['Год', 'Средняя зарплата'])
-    df_results['salary'] = df_results['salary'].round()
+    df_results['Средняя зарплата'] = df_results['Средняя зарплата'].round()
     df_results.to_csv('year_salary.csv', index=False)
-    df_results.to_html('year_salary.html')
+    df_results.to_html('year_salary.html', index=False)

@@ -33,7 +33,8 @@ if __name__ == "__main__":
     results = process_chunks(chunks)
     df_results = pd.DataFrame(list(results.items()), columns=['Город', 'Доля вакансий'])
     all_vacs = df_results['Доля вакансий'].sum()
-    df_results['Доля вакансий'] = round(df_results['Доля вакансий'] / all_vacs, 2)
-    df_results = df_results.sort_values(by='Доля вакансий', ascending=False).reset_index(drop=True)
+    df_results['Доля вакансий'] = round(df_results['Доля вакансий'] / all_vacs, 3)
+    df_results = df_results[df_results['Доля вакансий'] >= 0.01]\
+        .sort_values(by='Доля вакансий', ascending=False).reset_index(drop=True)
     df_results.to_csv('city_part.csv', index=False)
-    df_results.to_html('city_part.html')
+    df_results.to_html('city_part.html', index=False)
