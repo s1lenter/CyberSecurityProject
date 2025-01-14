@@ -10,6 +10,7 @@ urlpatterns = [
     path('prof_relevance', prof_relevance, name='prof_relevance'),
     path('geography', geography, name='geography'),
     path('skills', skills, name='skills'),
+    path('vacs_from_hh', vacancies_from_hh, name='vacs_from_hh')
 ]
 
 if settings.DEBUG:

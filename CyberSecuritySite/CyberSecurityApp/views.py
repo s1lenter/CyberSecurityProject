@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-
+from .api_handler import *
 
 def main_page(request):
     return render(request, 'main_page.html')
@@ -20,3 +20,7 @@ def geography(request):
 def skills(request):
     info = AnalysisResult.objects.filter(isAll=False)
     return render(request, 'all_vacancies_info.html', {'info': info[4:]})
+
+def vacancies_from_hh(request):
+    info = get_vacancies()
+    return render(request, 'hh_vacs.html', {'info': info})

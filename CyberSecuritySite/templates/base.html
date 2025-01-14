@@ -20,7 +20,7 @@
             <a href="{% url 'prof_relevance' %}">Востребованность</a>
             <a href="{% url 'geography' %}">География</a>
             <a href="{% url 'skills' %}">Навыки</a>
-            <a href="">Последние вакансии</a>
+            <a href="{% url 'vacs_from_hh' %}">Последние вакансии</a>
         </div>
         <div class="content">
             {% block content %} {% endblock %}

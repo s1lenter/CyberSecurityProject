@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{% for inf in info %}
+    <h2>{{inf.name}}</h2>
+    {{inf.description|safe}}
+    <p>{{inf.skills}}</p>
+    <p>{{inf.employer}}</p>
+    <p>{{inf.salary}}</p>
+    <p>{{inf.area_name}}</p>
+    <p>{{inf.published_at}}</p>
+{% endfor %}
+
+{% endblock %}
