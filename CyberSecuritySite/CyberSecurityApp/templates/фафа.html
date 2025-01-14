@@ -3,37 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой Проект</title>
+    <title>Вакансия: Главный специалист по информационной безопасности</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
 
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #2980b9;
+            padding-bottom: 5px;
+        }
+
+        strong {
+            color: #2980b9;
+        }
+
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+            margin: 10px 0;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        p {
+            margin: 10px 0;
+            color: #34495e;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .toggle-content {
+            display: none; /* Скрыть контент по умолчанию */
+        }
+
+        .toggle-button {
+            background-color: #2980b9; /* Цвет кнопки */
+            color: white; /* Цвет текста кнопки */
+            border: none; /* Убрать рамку */
+            padding: 10px 15px; /* Отступы */
+            cursor: pointer; /* Курсор при наведении */
+            border-radius: 5px; /* Закругление углов кнопки */
+            margin: 10px 0; /* Отступы */
+        }
+
+        .toggle-button:hover {
+            background-color: #1f6391; /* Цвет кнопки при наведении */
+        }
     </style>
+    <script>
+        function toggleContent() {
+            const content = document.getElementById('additional-content');
+            const button = document.getElementById('toggle-button');
+
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                button.textContent = 'Скрыть детали';
+            } else {
+                content.style.display = 'none';
+                button.textContent = 'Показать детали';
+            }
+        }
+    </script>
 </head>
 <body>
-    <header>
-        <h1>Мой Проект</h1>
-    </header>
+
     <div class="container">
-        <div class="sidebar">
-            <h2>Меню</h2>
-            <a href="#home">Главная</a>
-            <a href="#about">О нас</a>
-            <a href="#services">Услуги</a>
-            <a href="#contact">Контакты</a>
+        <h2>Главный специалист по информационной безопасности</h2>
+
+        <button id="toggle-button" class="toggle-button" onclick="toggleContent()">Показать детали</button>
+
+        <div id="additional-content" class="toggle-content">
+            <strong>Обязанности:</strong>
+            <ul>
+                <li>Реализация и модернизация проектов по направлению ИТ и ИБ.</li>
+                <li>Сопровождение средств и систем ИБ</li>
+                <li>Бизнес – планирование и закупочные процедуры по направлению ИБ</li>
+                <li>Организация работ по повышению осведомленности пользователей по вопросам ИБ</li>
+                <li>Организация контроля учетных записей и прав доступа Общества</li>
+                <li>Подготовка отчетности по направлению ИБ</li>
+            </ul>
+            <strong>Требования:</strong>
+            <ul>
+                <li>Высшее профессиональное образование в области информационной безопасности</li>
+                <li>Опыт работы не менее 3 лет</li>
+            </ul>
+            <strong>Условия и преимущества:</strong>
+            <ul>
+                <li>Работа в стабильной компании, входящей в периметр ПАО «НК «Роснефть».</li>
+                <li>Возможности для профессионального роста и развития.</li>
+                <li>Конкурентоспособная заработная плата и социальный пакет.</li>
+                <li>Добровольное медицинское страхование сотрудников и членов семьи.</li>
+            </ul>
+            <strong>О компании:</strong>
+            <p>ООО «Харампурнефтегаз» – это нефтегазодобывающее предприятие, входящее в периметр ПАО «НК «Роснефть». Мы занимаемся разработкой Харампурской группы месторождений в Ямало-Ненецком автономном округе. Наша компания активно развивается с момента основания в 2018 году, и мы приглашаем вас стать частью нашей команды профессионалов.</p>
         </div>
-        <div class="content">
-            <h2 id="home">Добро пожаловать на мой сайт</h2>
-            <p>Это пример простого сайта с левым меню.</p>
-            <h2 id="about">О нас</h2>
-            <p>Содержимое раздела "О нас".</p>
-            <h2 id="services">Услуги</h2>
-            <p>Содержимое раздела "Услуги".</p>
-            <h2 id="contact">Контакты</h2>
-            <p>Содержимое раздела "Контакты".</p>
-        </div>
+
+        <p>Информационная безопасность, Информационные технологии, Управление информационной безопасностью</p>
+        <p>Харампурнефтегаз</p>
+        <p>Зарплата не указана</p>
+        <p>Дата публикации: 14-01-2025</p>
     </div>
-    <footer>
-        <p>ФИО: Иванов Иван Иванович</p>
-        <p>Академическая группа: 123456</p>
-    </footer>
+
 </body>
 </html>

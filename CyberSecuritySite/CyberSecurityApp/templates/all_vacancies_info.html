@@ -1,3 +1,9 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проект</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/base.css">
+</head>
 {% extends 'base.html' %}
 
 {% load static %}
@@ -6,7 +12,7 @@
 
 {% for inf in info %}
     <h2>{{inf.name}}</h2>
-    <img src="{{ inf.image.url }}" alt="{{inf.name}}">
+    <img class="chart" src="{{ inf.image.url }}" alt="{{inf.name}}">
     {{inf.table|safe}}
 {% endfor %}
 

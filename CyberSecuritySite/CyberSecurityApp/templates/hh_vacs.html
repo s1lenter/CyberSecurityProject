@@ -4,14 +4,21 @@
 
 {% block content %}
 
+
+
 {% for inf in info %}
-    <h2>{{inf.name}}</h2>
-    {{inf.description|safe}}
-    <p>{{inf.skills}}</p>
-    <p>{{inf.employer}}</p>
-    <p>{{inf.salary}}</p>
-    <p>{{inf.area_name}}</p>
-    <p>{{inf.published_at}}</p>
+    <div class="container-vac">
+        <h2>{{inf.name}}</h2>
+        <button id="toggle-button" class="toggle-button" onclick="toggleContent()">Показать описание</button>
+        <div id="additional-content" class="toggle-content">
+            {{inf.description|safe}}
+        </div>
+        <p><strong>Навыки:</strong> {{inf.skills}}</p>
+        <p><strong>Работодатель:</strong> {{inf.employer}}</p>
+        <p><strong>Зарплата:</strong> {{inf.salary}}</p>
+        <p><strong>Регион:</strong> {{inf.area}}</p>
+        <p><strong>Дата публикации:</strong> {{inf.published_at}}</p>
+    </div>
 {% endfor %}
 
 {% endblock %}

@@ -1,9 +1,29 @@
 from datetime import datetime, timedelta
 
+import xml.etree.ElementTree as ET
 import requests
 
 
+def change_currency(number, curr, currency_dict):
+    if curr != 'RUR':
+        return number * currency_dict[curr]
+    return number
+
+
+def get_currency():
+    url = "https://www.cbr.ru/scripts/XML_daily.asp"
+    response = requests.get(url)
+    root = ET.fromstring(response.content)
+    curr = {}
+    for valute in root.findall('Valute'):
+        char_code = valute.find('CharCode').text
+        value = float(valute.find('Value').text.replace(',', '.'))
+        curr[char_code] = value
+    return curr
+
+
 def get_vacancies():
+    currency = get_currency()
     keys = ['id', 'name', 'employer', 'area', 'salary', 'published_at', 'description', 'skills']
     date_from = (datetime.now() - timedelta(hours=24)).isoformat() + 'Z'
     params = {
@@ -13,8 +33,13 @@ def get_vacancies():
         'page': 0
     }
     response = requests.get('https://api.hh.ru/vacancies', params=params)
-    data = response.json()['items']
     result = {}
+    resp_json = response.json()['items']
+    data = sorted(
+        resp_json,
+        key=lambda x: datetime.strptime(x['published_at'], "%Y-%m-%dT%H:%M:%S%z"),
+        reverse=True
+    )[:10]
     result_list = []
     for item in data:
         info_list = {}
@@ -26,9 +51,11 @@ def get_vacancies():
             if key == 'area' or key == 'employer':
                 info_list[key] = item[key]['name']
             elif key == 'skills':
-                info_list[key] = ', '.join(item[key])
+                if len(item[key]) > 0:
+                    info_list[key] = ', '.join(item[key])
+                else: info_list[key] = 'Необходимые навыки не указаны'
             elif key == 'published_at':
-                info_list[key] = f"{item[key][8:10]}-{item[key][5:7]}-{item[key][:4]}"
+                info_list[key] = f"{item[key][8:10]}-{item[key][5:7]}-{item[key][:4]} {item[key][11:16]}"
             elif key == 'salary' and item[key] is None:
                 info_list[key] = 'Зарплата не указана'
             elif key == 'salary' and item[key]['to'] is None:
@@ -42,3 +69,4 @@ def get_vacancies():
         result[item['id']] = info_list
         result_list = [value for value in result.values()]
     return result_list
+get_vacancies()
