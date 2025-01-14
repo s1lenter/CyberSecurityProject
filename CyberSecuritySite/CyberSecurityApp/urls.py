@@ -6,7 +6,10 @@ from .views import *
 
 urlpatterns = [
     path('', main_page, name='main_page'),
-    path('all_vacancies/', all_vacancies, name='all_vacancies')
+    path('all_vacancies/', all_vacancies, name='all_vacancies'),
+    path('prof_relevance', prof_relevance, name='prof_relevance'),
+    path('geography', geography, name='geography'),
+    path('skills', skills, name='skills'),
 ]
 
 if settings.DEBUG:
