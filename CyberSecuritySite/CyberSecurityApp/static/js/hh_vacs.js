@@ -1,6 +1,6 @@
-function toggleContent() {
-    const content = document.getElementById('additional-content');
-    const button = document.getElementById('toggle-button');
+function toggleContent(contentId) {
+    const content = document.getElementById(contentId);
+    const button = document.getElementById('toggle-button-' + contentId.split('-').pop());
 
     if (content.style.display === 'none' || content.style.display === '') {
         content.style.display = 'block';

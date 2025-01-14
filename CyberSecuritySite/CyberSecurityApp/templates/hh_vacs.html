@@ -9,8 +9,8 @@
 {% for inf in info %}
     <div class="container-vac">
         <h2>{{inf.name}}</h2>
-        <button id="toggle-button" class="toggle-button" onclick="toggleContent()">Показать описание</button>
-        <div id="additional-content" class="toggle-content">
+        <button id="toggle-button-{{ forloop.counter0 }}" class="toggle-button" onclick="toggleContent('additional-content-{{ forloop.counter0 }}')">Показать описание</button>
+        <div id="additional-content-{{ forloop.counter0 }}" class="toggle-content">
             {{inf.description|safe}}
         </div>
         <p><strong>Навыки:</strong> {{inf.skills}}</p>
