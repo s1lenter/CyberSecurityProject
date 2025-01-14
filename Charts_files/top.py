@@ -1,9 +1,6 @@
 import pandas as pd
 from multiprocessing import Pool
 
-currency = pd.read_csv('currency.csv')
-chunks = pd.read_csv('mini_vacs.csv', chunksize=100000)
-
 
 def get_year(date):
     if not pd.isna(date):
@@ -16,13 +13,6 @@ def chunk_analysis(chunk):
     chunk = chunk.dropna(subset=['key_skills']).reset_index()
     chunk = chunk.groupby('published_at')['key_skills'].apply('\r\n'.join).reset_index()
     return chunk
-    # result_dict = {}
-    # for skill in chunk['key_skills']:
-    #     if skill in result_dict:
-    #         result_dict[skill] += 1
-    #     else:
-    #         result_dict[skill] = 1
-    # return result_dict
 
 
 def process_chunks(chunks):
@@ -46,9 +36,13 @@ def process_chunks(chunks):
     return result
 
 
-if __name__ == "__main__":
-    chunks = pd.read_csv('vacancies_2024.csv', chunksize=100000)
+def get_analysis(file_name, exit_csv, exit_html):
+    chunks = pd.read_csv(file_name, chunksize=100000)
     results = process_chunks(chunks)
     df_results = pd.DataFrame(results, columns=['Год', 'Навык', 'Количество'])
-    df_results.to_csv('top-20.csv', index=False)
-    df_results.to_html('top-20.html', index=False)
+    df_results.to_csv(exit_csv, index=False)
+    df_results.to_html(exit_html, index=False)
+
+
+if __name__ == "__main__":
+    get_analysis('vacancies_2024.csv', 'top_20.csv', 'top_20.html')

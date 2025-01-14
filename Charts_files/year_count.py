@@ -1,10 +1,6 @@
 import pandas as pd
 from multiprocessing import Pool
 
-currency = pd.read_csv('currency.csv')
-chunks = pd.read_csv('mini_vacs.csv', chunksize=100000)
-
-
 def get_year(date):
     if not pd.isna(date):
         return date[:4]
@@ -33,11 +29,12 @@ def process_chunks(chunks):
 
     return final_result
 
-
-if __name__ == "__main__":
-    chunks = pd.read_csv('vacancies_2024.csv', chunksize=100000)
+def get_analysis(file_name, exit_csv, exit_html):
+    chunks = pd.read_csv(file_name, chunksize=100000)
     results = process_chunks(chunks)
     df_results = pd.DataFrame(list(results.items()), columns=['Год', 'Количество вакансий'])
-    df_cleaned = df_results.dropna(subset=['Количество вакансий']).reset_index()
-    df_results.to_csv('year_count.csv', index=False)
-    df_results.to_html('year_count.html', index=False)
+    df_results.to_csv(exit_csv, index=False)
+    df_results.to_html(exit_html, index=False)
+
+if __name__ == "__main__":
+    get_analysis('vacancies_2024.csv', 'year_count.csv', 'year_count.html')

@@ -2,7 +2,6 @@ import pandas as pd
 from multiprocessing import Pool
 
 currency = pd.read_csv('currency.csv')
-chunks = pd.read_csv('mini_vacs.csv', chunksize=100000)
 
 
 def change_currency(row):
@@ -35,20 +34,20 @@ def process_chunks(chunks):
     }).reset_index()
     return result_df
 
-# for chunk in chunks:
-#     x = chunk_analysis(chunk)
-#     print(x)
 
-
-if __name__ == "__main__":
-    chunks = pd.read_csv('vacancies_2024.csv', chunksize=100000)
+def get_analysis(file_name, exit_csv, exit_html):
+    chunks = pd.read_csv(file_name, chunksize=100000)
     df_results = process_chunks(chunks)
     df_results.columns = ['Город', 'Средняя зарплата', 'count']
     df_results['count'] = round(df_results['count'] / df_results['count'].sum(), 3)
-    df_results = df_results[df_results['count'] >= 0.01]\
+    df_results = df_results[df_results['count'] >= 0.01] \
         .sort_values(by='Средняя зарплата', ascending=False).reset_index(drop=True)
     df_results.index += 1
     df_results['Средняя зарплата'] = df_results['Средняя зарплата'].round()
     df_cleaned = df_results[['Город', 'Средняя зарплата']].dropna(subset='Средняя зарплата')
-    df_cleaned.to_csv('city_salary.csv', index=False)
-    df_cleaned.to_html('city_salary.html', index=False)
+    df_cleaned.to_csv(exit_csv, index=False)
+    df_cleaned.to_html(exit_html, index=False)
+
+
+if __name__ == "__main__":
+    get_analysis('vacancies_2024.csv', 'city_salary.csv', 'city_salary.html')

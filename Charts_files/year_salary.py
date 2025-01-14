@@ -2,7 +2,6 @@ import pandas as pd
 from multiprocessing import Pool
 
 currency = pd.read_csv('currency.csv')
-chunks = pd.read_csv('vacancies_2024.csv', chunksize=100000)
 
 
 def change_currency(row):
@@ -46,11 +45,14 @@ def process_chunks(chunks):
 
     return final_result
 
-
-if __name__ == "__main__":
-    chunks = pd.read_csv('vacancies_2024.csv', chunksize=100000)
+def get_analysis(file_name, exit_csv, exit_html):
+    chunks = pd.read_csv(file_name, chunksize=100000)
     results = process_chunks(chunks)
     df_results = pd.DataFrame(list(results.items()), columns=['Год', 'Средняя зарплата'])
     df_results['Средняя зарплата'] = df_results['Средняя зарплата'].round()
-    df_results.to_csv('year_salary.csv', index=False)
-    df_results.to_html('year_salary.html', index=False)
+    df_results.to_csv(exit_csv, index=False)
+    df_results.to_html(exit_html, index=False)
+
+
+if __name__ == "__main__":
+    get_analysis('vacancies_2024.csv', 'year_count.csv', 'year_count.html')
