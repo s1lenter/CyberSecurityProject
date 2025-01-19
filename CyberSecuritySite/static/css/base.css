@@ -232,3 +232,7 @@ p {
 .container_vac span{
     font-color:red;
 }
+
+footer .footer-text{
+    color:#ffffff;
+}
